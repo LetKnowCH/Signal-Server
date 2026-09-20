@@ -49,6 +49,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@fa648b43de3d4d023bcb3f89ed6940096949c419 # 2.1.5
 
+      # service/pom.xml reads service/config/deploy.properties in the deploy phase; the file is gitignored
+      # and the image checksums already live in the root pom, so an empty file is enough.
+      - name: Create deploy.properties
+        run: touch service/config/deploy.properties
+
       - name: Build and push container image
         env:
           CODEARTIFACT_AUTH_TOKEN: ${{ steps.get-token.outputs.token }}
