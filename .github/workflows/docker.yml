@@ -63,4 +63,4 @@ jobs:
             -DskipTests \
             -Dproperties.skip=true \
             -Djib.to.image="${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ github.sha }}" \
-            -Djib.to.tags="${{ github.ref_name }}"
+            ${{ github.ref_type == 'tag' && format('-Djib.to.tags={0}', github.ref_name) || '' }}
